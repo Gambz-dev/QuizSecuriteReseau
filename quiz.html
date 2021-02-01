@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quiz</title>
+    <!-- jquery for maximum compatibility -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    /** Simple JavaScript Quiz
+     * version 0.1.0
+     * http://journalism.berkeley.edu
+     * created by: Jeremy Rue @jrue
+     *
+     * Copyright (c) 2013 The Regents of the University of California
+     * Released under the GPL Version 2 license
+     * http://www.opensource.org/licenses/gpl-2.0.php
+     * This program is distributed in the hope that it will be useful, but
+     * WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+     */
+
+    var quiztitle = "Quiz sécurité informatique et vie privée";
+
+    /**
+    * Set the information about your questions here. The correct answer string needs to match
+    * the correct choice exactly, as it does string matching. (case sensitive)
+    *
+    */
+    var quiz = [
+
+        {
+            "question"      :   "Q1: Quelle est la meilleure bibliothèque ?",
+            "image"         :   "https://www.deltafm.fr/wp-content/uploads/2020/11/mediathe%CC%80que-gravelines.jpg",
+            "choices"       :   [
+                                    "La Bibliothèque Nationale de France",
+                                    "La bibliothèque de Babel",
+                                    "La médiathèque de Gravelines, quelle question !",
+                                    "La bibliothèque d'Alexandrie"
+                                ],
+            "correct"       :   "La médiathèque de Gravelines, quelle question !",
+            "explanation"   :   "La médiathèque de Gravelines dispose d'une borne d'arcade, qui peut en dire autant ?",
+        },
+        {
+            "question"      :   "Q2: Que fait un ransomware sur votre PC",
+            "image"         :   "https://enterprise.comodo.com/images/how-do-you-get-rid-of-ransomware.png",
+            "choices"       :   [
+                                    "Il verrouille le disque dur avec un mot de passe",
+                                    "Il est envoyé automatiquement à toutes les adresses e-mail",
+                                    "Il crypte les données",
+                                    "Il le fait exploser"
+                                ],
+            "correct"       :   "Il crypte les données",
+            "explanation"   :   "Une attaque de ransomware utilise des chevaux de Troie qui cryptent toutes les données du disque dur. Les cybercriminels empêchent ainsi les propriétaires des PC concernés d'accéder à leurs données et exigent une rançon pour le décryptage des données («ransom» signifie «rançon» en anglais).",
+        },
+        {
+            "question"      :   "Q3: Le Social Engineering est…",
+            "image"         :   "https://img.e-marketing.fr/Img/MKME/VISUEL/2018/4/330223/comment-faire-face-au-social-engineering-LE.png",
+            "choices"       :   [
+                                    "un logiciel malveillant qui se propage par l'intermédiaire des réseaux sociaux",
+                                    "l'influence interpersonnelle afin d'obtenir des informations sensibles en matière de sécurité",
+                                    "un logiciel malveillant nommé d'après ses inventeurs qui sont d'anciens ingénieurs",
+                                    "Je ne parle pas anglais, navré"
+                                ],
+            "correct"       :   "l'influence interpersonnelle afin d'obtenir des informations sensibles en matière de sécurité",
+            "explanation"   :   "Le Social Engineering tente d'accéder aux données sensibles de l'entreprise par des astuces psychologiques plutôt que par des technologies de piratage sophistiquées. Dans la plupart des cas, les cybercriminels utilisent le téléphone ou les e-mails pour se faire passer, auprès des collaborateurs, pour des responsables de la sécurité, des administrateurs système ou des personnes de confiance d'un supérieur hiérarchique afin d'obtenir des données de connexion, des mots de passe ou d'autres données protégées. Les victimes sont trompées, par exemple, par de fausses situations d'urgence, de sorte qu'elles révèlent souvent les données souhaitées même après une première hésitation.",
+        },
+        {
+            "question"      :   "Q4: Un Drive-by download est dangereux car…",
+            "image"         :   "https://h7f7z2r7.stackpathcdn.com/sites/default/files/images/articles/trucker.jpg",
+            "choices"       :   [
+                                    "il peut se cacher dans les bannières sur les sites Web",
+                                    "il se propage via WLAN",
+                                    "ce logiciel malveillant fonctionne avec n'importe quel programme e-mail",
+                                    "car télécharger au volant augmente les risques d'accident de la route. Restez vigilants"
+                                ],
+            "correct"       :   "il peut se cacher dans les bannières sur les sites Web",
+            "explanation"   :   "Sans cliquer sur un lien ni télécharger délibérément un fichier, la simple visite d'un site Web peut entraîner l'infection du PC par un logiciel malveillant. Il suffit ainsi de «passer par là» (drive by) pour que ces programmes malveillants s'installent automatiquement sur l'ordinateur. Peu importe la connexion Internet (LAN, WLAN ou réseau mobile) que vous avez utilisée pour accéder au site Web infecté. Le logiciel malveillant peut se cacher dans des bannières ou d'autres éléments invisibles du site Web. L'attaque de type Drive-by download est souvent due à l'utilisation de versions de navigateur obsolètes ou de JavaScript en combinaison avec un navigateur obsolète.",
+        },
+        {
+            "question"      :   "Q5: Un logiciel antivirus protège le réseau d’entreprise le plus efficacement lorsque...",
+            "image"         :   "https://ticmagazine.bf/wp-content/uploads/2020/08/antivirus.jpg",
+            "choices"       :   [
+                                    "deux programmes antivirus différents sont utilisés simultanément sur les PC.",
+                                    "il contrôle toutes les données entrantes exclusivement sur le serveur en même temps que le firewall.",
+                                    "il est installé et tenu à jour sur tous les PC et serveurs.",
+                                    "les salariés respectent les gestes barrières."
+                                ],
+            "correct"       :   "il est installé et tenu à jour sur tous les PC et serveurs.",
+            "explanation"   :   "Etant donné que, par exemple, les programmes malveillants peuvent aussi atteindre un ordinateur via des clés USB, il est important que chaque PC dispose de son propre logiciel antivirus. Il est également important que ces applications soient toujours à jour. Si le programme antivirus ne reçoit pas de mises à jour actuelles, il se peut qu’il ne détecte pas les nouvelles menaces.",
+        },
+        {
+            "question"      :   "Q6: Quand faut-il faire une mise à jour des logiciels?",
+            "image"         :   "https://www.nationalmagazineweb.com/wp-content/uploads/2020/04/Rubrique-en-cours-de-mise-a-jour-1024x1020.jpg",
+            "choices"       :   [
+                                    "Dès que l'éditeur fournit une mise à jour",
+                                    "Quand l'éditeur me le demande par e-mail",
+                                    "Seulement quand il y a une nouvelle version du système d'exploitation",
+                                    "De mon vivant ? JAMAIS !"
+                                ],
+            "correct"       :   "Dès que l'éditeur fournit une mise à jour",
+            "explanation"   :   "L'une des mesures de sécurité les plus importantes est la mise à jour des logiciels et de tous les programmes, sans délai. Les nouvelles versions de logiciels doivent être installées immédiatement. Le système d'exploitation doit également être tenu à jour. Microsoft et Apple publient régulièrement des correctifs pour les systèmes d'exploitation Windows et MacOS afin de réparer les failles connues, mais les pirates trouvent rapidement de nouvelles vulnérabilités et les exploitent sans vergogne si l'on oublie de faire immédiatement les mises à jour.",
+        },
+        {
+            "question"      :   "Q7: Quelles passerelles d’entrée potentielles sont souvent oubliées lors de la protection du réseau de l’entreprise ?",
+            "image"         :   "https://previews.123rf.com/images/tovovan/tovovan1503/tovovan150300082/38019490-r%C3%A9sum%C3%A9-sch%C3%A9ma-de-r%C3%A9seau-informatique-moderne-les-%C3%A9l%C3%A9ments-de-conception.jpg",
+            "choices"       :   [
+                                    "Les souris sans fil sont souvent exploitées par les mouseware",
+                                    "Les cartes graphiques qui sont souvent les cibles d'attaques de virus en raison de mises à jour manquantes",
+                                    "Les imprimantes réseau, parce qu'elles sont accessibles via le réseau",
+                                    "Par où t'es rentré ? On t'a pas vu sortir"
+                                ],
+            "correct"       :   "Les imprimantes réseau, parce qu'elles sont accessibles via le réseau",
+            "explanation"   :   "Les imprimantes réseau sont une importante passerelle d’entrée pour les malwares. Mais les imprimantes connectées au réseau ne sont pas les seules à pouvoir être utilisées à mauvais escient par les hackers, il en va de même pour tous les appareils qui possèdent leur propre adresse IP. Il s’agit notamment de caméras de surveillance en réseau, de lampes, de routeurs, et même de la machine à café dans la cuisine du bureau ou de haut-parleurs intelligents. Ils font partie de l’Internet des objets (IoT) et peuvent être utilisés à mauvais escient par les hackers pour pénétrer le réseau de l’entreprise et y provoquer des dégâts.",
+        },
+        {
+            "question"      :   "Q8: Quel est le rôle d'un firewall?",
+            "image"         :   "https://www.escope.net/Images/firewall.png",
+            "choices"       :   [
+                                    "Il supprime les virus et les chevaux de Troie des e-mails",
+                                    "Il surveille le trafic réseau",
+                                    "Il empêche les composants du PC de surchauffer",
+                                    "Il prévient des risques d'incendie"
+                                ],
+            "correct"       :   "Il surveille le trafic réseau",
+            "explanation"   :   "Le firewall est un système de sécurité qui analyse le trafic de données et le bloque si nécessaire. Il protège ainsi un PC, un serveur ou l'ensemble d'un système informatique contre les attaques ou les accès non autorisés. Un logiciel firewall peut être intégré dans un système (d'exploitation) existant ou utilisé sur un matériel firewall propre, où il fonctionne comme un filtre entre un réseau interne et Internet.",
+        },
+        // {
+        //     "question"      :   "Q9: Quelle est la meilleure bibliothèque ?",
+        //     "image"         :   "https://www.deltafm.fr/wp-content/uploads/2020/11/mediathe%CC%80que-gravelines.jpg",
+        //     "choices"       :   [
+        //                             "La Bibliothèque Nationale de France",
+        //                             "La bibliothèque de Babel",
+        //                             "La médiathèque de Gravelines, quelle question !",
+        //                             "La bibliothèque d'Alexandrie"
+        //                         ],
+        //     "correct"       :   "La médiathèque de Gravelines, quelle question !",
+        //     "explanation"   :   "La médiathèque de Gravelines dispose d'une borne d'arcade, qui peut en dire autant ?",
+        // },
+        // {
+        //     "question"      :   "Q10: Que fait un ransomware sur votre PC",
+        //     "image"         :   "https://enterprise.comodo.com/images/how-do-you-get-rid-of-ransomware.png",
+        //     "choices"       :   [
+        //                             "Il verrouille le disque dur avec un mot de passe",
+        //                             "Il est envoyé automatiquement à toutes les adresses e-mail",
+        //                             "Il crypte les données",
+        //                             "Il le fait exploser"
+        //                         ],
+        //     "correct"       :   "Il crypte les données",
+        //     "explanation"   :   "Une attaque de ransomware utilise des chevaux de Troie qui cryptent toutes les données du disque dur. Les cybercriminels empêchent ainsi les propriétaires des PC concernés d'accéder à leurs données et exigent une rançon pour le décryptage des données («ransom» signifie «rançon» en anglais).",
+        // }
+
+    ];
+
+
+    /******* No need to edit below this line *********/
+    var currentquestion = 0, score = 0, submt=true, picked;
+
+    jQuery(document).ready(function($){
+
+        /**
+         * HTML Encoding function for alt tags and attributes to prevent messy
+         * data appearing inside tag attributes.
+         */
+        function htmlEncode(value){
+          return $(document.createElement('div')).text(value).html();
+        }
+
+        /**
+         * This will add the individual choices for each question to the ul#choice-block
+         *
+         * @param {choices} array The choices from each question
+         */
+        function addChoices(choices){
+            if(typeof choices !== "undefined" && $.type(choices) == "array"){
+                $('#choice-block').empty();
+                for(var i=0;i<choices.length; i++){
+                    $(document.createElement('li')).addClass('choice choice-box').attr('data-index', i).text(choices[i]).appendTo('#choice-block');                    
+                }
+            }
+        }
+        
+        /**
+         * Resets all of the fields to prepare for next question
+         */
+        function nextQuestion(){
+            submt = true;
+            $('#explanation').empty();
+            $('#question').text(quiz[currentquestion]['question']);
+            $('#pager').text('Question ' + Number(currentquestion + 1) + ' sur ' + quiz.length);
+            if(quiz[currentquestion].hasOwnProperty('image') && quiz[currentquestion]['image'] != ""){
+                if($('#question-image').length == 0){
+                    $(document.createElement('img')).addClass('question-image').attr('id', 'question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question'])).insertAfter('#question');
+                } else {
+                    $('#question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question']));
+                }
+            } else {
+                $('#question-image').remove();
+            }
+            addChoices(quiz[currentquestion]['choices']);
+            setupButtons();
+        }
+
+        /**
+         * After a selection is submitted, checks if its the right answer
+         *
+         * @param {choice} number The li zero-based index of the choice picked
+         */
+        function processQuestion(choice){
+            if(quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']){
+                $('.choice').eq(choice).css({'background-color':'#50D943'});
+                $('#explanation').html('<strong>Correct!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+                score++;
+            } else {
+                $('.choice').eq(choice).css({'background-color':'#D92623'});
+                $('#explanation').html('<strong>Incorrect.</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            }
+            currentquestion++;
+            $('#submitbutton').html('QUESTION SUIVANTE &raquo;').on('click', function(){
+                if(currentquestion == quiz.length){
+                    endQuiz();
+                } else {
+                    $(this).text('Vérifier la réponse').css({'color':'#222'}).off('click');
+                    nextQuestion();
+                }
+            })
+        }
+
+        /**
+         * Sets up the event listeners for each button.
+         */
+        function setupButtons(){
+            $('.choice').on('mouseover', function(){
+                $(this).css({'background-color':'#e1e1e1'});
+            });
+            $('.choice').on('mouseout', function(){
+                $(this).css({'background-color':'#fff'});
+            })
+            $('.choice').on('click', function(){
+                picked = $(this).attr('data-index');
+                $('.choice').removeAttr('style').off('mouseout mouseover');
+                $(this).css({'border-color':'#222','font-weight':700,'background-color':'#c1c1c1'});
+                if(submt){
+                    submt=false;
+                    $('#submitbutton').css({'color':'#000'}).on('click', function(){
+                        $('.choice').off('click');
+                        $(this).off('click');
+                        processQuestion(picked);
+                    });
+                }
+            })
+        }
+        
+        /**
+         * Quiz ends, display a message.
+         */
+        function endQuiz(){
+            $('#explanation').empty();
+            $('#question').empty();
+            $('#choice-block').empty();
+            $('#submitbutton').remove();
+            $('#question').text("Vous avez eu " + score + " réponse(s) correcte(s) sur " + quiz.length);
+            $(document.createElement('h2')).css({'text-align':'center', 'font-size':'4em'}).text(Math.round(score/quiz.length * 100) + '%').insertAfter('#question');
+        }
+
+        /**
+         * Runs the first time and creates all of the elements for the quiz
+         */
+        function init(){
+            //add title
+            if(typeof quiztitle !== "undefined" && $.type(quiztitle) === "string"){
+                $(document.createElement('h1')).text(quiztitle).appendTo('#frame');
+            } else {
+                $(document.createElement('h1')).text("Quiz").appendTo('#frame');
+            }
+
+            //add pager and questions
+            if(typeof quiz !== "undefined" && $.type(quiz) === "array"){
+                //add pager
+                $(document.createElement('p')).addClass('pager').attr('id','pager').text('Question 1 sur ' + quiz.length).appendTo('#frame');
+                //add first question
+                $(document.createElement('h2')).addClass('question').attr('id', 'question').text(quiz[0]['question']).appendTo('#frame');
+                //add image if present
+                if(quiz[0].hasOwnProperty('image') && quiz[0]['image'] != ""){
+                    $(document.createElement('img')).addClass('question-image').attr('id', 'question-image').attr('src', quiz[0]['image']).attr('alt', htmlEncode(quiz[0]['question'])).appendTo('#frame');
+                }
+                $(document.createElement('p')).addClass('explanation').attr('id','explanation').html('&nbsp;').appendTo('#frame');
+            
+                //questions holder
+                $(document.createElement('ul')).attr('id', 'choice-block').appendTo('#frame');
+            
+                //add choices
+                addChoices(quiz[0]['choices']);
+            
+                //add submit button
+                $(document.createElement('div')).addClass('choice-box').attr('id', 'submitbutton').text('Vérifier la réponse').css({'font-weight':700,'color':'#222','padding':'30px 0'}).appendTo('#frame');
+            
+                setupButtons();
+            }
+        }
+        
+        init();
+    });
+    </script>
+    <style type="text/css" media="all">
+        /*css reset */
+        html,body,div,span,h1,h2,h3,h4,h5,h6,p,code,small,strike,strong,sub,sup,b,u,i{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0;} 
+        article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;} 
+        body{line-height:1; font:normal 0.9em/1em "Helvetica Neue", Helvetica, Arial, sans-serif;} 
+        ol,ul{list-style:none;}
+        strong{font-weight:700;}
+        #frame{
+            max-width:620px;
+            margin-left: auto;
+            margin-right: auto;
+            vertical-align: center;
+            width:auto;
+            border:1px solid #ccc;
+            background:#fff;
+            padding:10px;}
+        h1{font:normal bold 2em/1.8em "Helvetica Neue", Helvetica, Arial, sans-serif;text-align:left;border-bottom:1px solid #999;padding:0;width:auto}
+        h2{font:italic bold 1.3em/1.2em "Helvetica Neue", Helvetica, Arial, sans-serif;padding:0;text-align:center;margin:20px 0;}
+        p.pager{margin:5px 0 5px; font:bold 1em/1em "Helvetica Neue", Helvetica, Arial, sans-serif;color:#999;}
+        img.question-image{display:block;max-width:250px;margin:10px auto;border:1px solid #ccc;width:100%;height:auto;}
+        #choice-block{display:block;list-style:none;margin:0;padding:0;}
+        #submitbutton{background:#5a6b8c;}
+        #submitbutton:hover{background:#7b8da6;}
+        #explanation{margin:0 auto;padding:20px;width:75%;}
+        .choice-box{display:block;text-align:center;margin:8px auto;padding:10px 0;border:1px solid #666;cursor:pointer;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div id="frame" role="content"></div>
+</body>
+</html>
